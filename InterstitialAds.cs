@@ -18,16 +18,8 @@ namespace Admob
 
         public InterstitialAds(string adUnitId)
         {
-            AdmobSettings _admobSettings = Resources.Load<AdmobSettings>("Settings/AdmobSetting");
+            Debug.Log($"Interstitial Init. adUnitId : {adUnitId}");
             _adUnitId = adUnitId;
-
-            Debug.Log($"Interstitial Init. adUnitId : {_adUnitId}");
-            MobileAds.Initialize((InitializationStatus initStatus) =>
-            {
-                // This callback is called once the MobileAds SDK is initialized.
-                Debug.Log($"MobileAds.Initialize interstitial");
-                LoadAd();
-            });
         }
 
         /// <summary>

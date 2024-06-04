@@ -1,5 +1,6 @@
 
 using System;
+using GoogleMobileAds.Api;
 using UnityEngine;
 
 namespace Admob
@@ -10,17 +11,28 @@ namespace Admob
         private InterstitialAds _interstitialAds;
         private AdmobSettings _settings;
 
-        private void Start()
+        private void Awake()
         {
-            _settings = Resources.Load<AdmobSettings>("Settings/AdmobSetting");
+            _settings = Resources.Load<AdmobSettings>("Settings/AdmobSettings");
 
 #if DEBUG_ADMOB
-            _rewardedAds = new RewardedAds(_settings.RewardedAdsSettings.TestAdUnitId);
-            _interstitialAds = new InterstitialAds(_settings.InterstitialAdsSettings.TestAdUnitId);
+            string rewardedAdsUnitId = _settings.RewardedAdsSettings.TestAdUnitId;
+            string interstitialAdsUnitId = _settings.InterstitialAdsSettings.TestAdUnitId;
 #else
-            _rewardedAds = new RewardedAds(_settings.RewardedAdsSettings.AdUnitId);
-            _interstitialAds = new InterstitialAds(_settings.InterstitialAdsSettings.AdUnitId);
+            string rewardedAdsUnitId = _settings.RewardedAdsSettings.AdUnitId;
+            string interstitialAdsUnitId = _settings.InterstitialAdsSettings.AdUnitId;
 #endif
+
+            _rewardedAds = new RewardedAds(rewardedAdsUnitId);
+            _interstitialAds = new InterstitialAds(interstitialAdsUnitId);
+
+            MobileAds.Initialize((InitializationStatus initStatus) =>
+            {
+                // This callback is called once the MobileAds SDK is initialized.
+                Debug.Log($"MobileAds.Initialize rewarded and interstitial");
+                _rewardedAds.LoadAd();
+                _interstitialAds.LoadAd();
+            });
 
             DontDestroyOnLoad(this);
         }

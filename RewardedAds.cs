@@ -14,21 +14,12 @@ namespace Admob
         }
 
         private string _adUnitId = "unused";
-
         private RewardedAd _rewardedAd;
 
         public RewardedAds(string adUnitId)
         {
-            AdmobSettings _admobSettings = Resources.Load<AdmobSettings>("Settings/AdmobSetting");
+            Debug.Log($"Rewarded Init. adUnitId : {adUnitId}");
             _adUnitId = adUnitId;
-
-            Debug.Log($"Rewarded Init. adUnitId : {_adUnitId}");
-            MobileAds.Initialize((InitializationStatus initStatus) =>
-            {
-                // This callback is called once the MobileAds SDK is initialized.
-                Debug.Log($"MobileAds.Initialize Rewarded");
-                LoadAd();
-            });
         }
 
         /// <summary>
